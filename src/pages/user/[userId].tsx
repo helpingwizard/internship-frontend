@@ -114,7 +114,7 @@ export default function SignUp() {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
+                  type="text"
                   id="password"
                   autoComplete="new-password"
                 />
@@ -124,23 +124,37 @@ export default function SignUp() {
               </Grid>
             </Grid>
             <Button
-              onClick={async() => {
-                const res = await axios.put("http://localhost:3000/user/update/" + userId, {
-                  username: userName,
-                  email : email,
-                  password: password,
-                  name : name
-                })
-                alert("User Updated Successfully");
-                router.push('/list')
-              }}
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Update User
-            </Button>
+  onClick={async () => {
+    try {
+      const res = await axios.put(
+        "http://localhost:3000/user/update/" + userId,
+        {
+          username: userName,
+          email: email,
+          password: password,
+          name: name
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+          }
+        }
+      );
+      alert("User Updated Successfully");
+      router.push("/list");
+    } catch (error) {
+      console.error("Error updating user:", error);
+      alert("Failed to update user. Please try again later.");
+    }
+  }}
+  fullWidth
+  variant="contained"
+  sx={{ mt: 3, mb: 2 }}
+>
+  Update User
+</Button>
+
+
 
             
 
