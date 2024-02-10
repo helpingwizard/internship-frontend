@@ -18,33 +18,66 @@ import axios from 'axios';
 import Router, { useRouter } from "next/router";
 
 export default function SignUp() {
-
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-    const [userName, setuserName]= React.useState("");
-    const [showPassword, setShowPassword] = React.useState(false); 
+    const [userName, setUserName] = React.useState("");
+    const [showPassword, setShowPassword] = React.useState(false);
+    const [nameError, setNameError] = React.useState("");
+    const [emailError, setEmailError] = React.useState("");
+    
     const setName1 = useSetRecoilState(userState);
-
     const router = useRouter();
 
     const handleShowPassword = () => {
-        setShowPassword(!showPassword); 
+        setShowPassword(!showPassword);
     };
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    const validateName = (name:any) => {
+        if (!name || name.length === 0) {
+            setNameError("Name is required");
+            return false;
+        } else if (name.length > 30) {
+            setNameError("Name should be maximum 30 characters long");
+            return false;
+        } else {
+            setNameError("");
+            return true;
+        }
+    };
+
+    const validateEmail = (email:any) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || email.length === 0) {
+            setEmailError("Email is required");
+            return false;
+        } else if (!emailRegex.test(email)) {
+            setEmailError("Invalid email address");
+            return false;
+        } else {
+            setEmailError("");
+            return true;
+        }
+    };
+
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
-        const res = await axios.post("https://backend3-mdfb.onrender.com/user/signup", {
-            username: userName,
-            email: email,
-            password: password,
-            name: name
-        });
-        router.push("/loggedInPg");
-        setName1({
-            isLoading: false,
-            name: name
-        });
+        const isNameValid = validateName(name);
+        const isEmailValid = validateEmail(email);
+
+        if (isNameValid && isEmailValid) {
+            const res = await axios.post("https://backend3-mdfb.onrender.com/user/signup", {
+                username: userName,
+                email: email,
+                password: password,
+                name: name
+            });
+            router.push("/loggedInPg");
+            setName1({
+                isLoading: false,
+                name: name
+            });
+        }
     };
 
     return (
@@ -58,45 +91,35 @@ export default function SignUp() {
                     alignItems: 'center',
                 }}
             >
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    User Sign up
-                </Typography>
+                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}></Avatar>
+                <Typography component="h1" variant="h5">User Sign up</Typography>
                 <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <TextField
-                                onChange={(e)=> {
-                                    setName(e.target.value);
-                                }}
-                                autoComplete="given-name"
-                                name="firstName"
+                                onChange={(e) => setName(e.target.value)}
                                 required
                                 fullWidth
                                 id="firstName"
                                 label="First Name"
                                 autoFocus
+                                error={!!nameError}
+                                helperText={nameError}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <TextField
                                 required
                                 fullWidth
                                 id="Username"
                                 label="Username"
                                 name="Username"
-                                autoComplete="family-name"
-                                onChange={(e)=>{
-                                    setuserName(e.target.value);
-                                }}
+                                onChange={(e) => setUserName(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                onChange={(e)=> {
-                                    setEmail(e.target.value);
-                                }}
+                                onChange={(e) => setEmail(e.target.value)}
                                 required
                                 fullWidth
                                 id="email"
@@ -104,18 +127,18 @@ export default function SignUp() {
                                 name="email"
                                 autoComplete="email"
                                 type='email'
+                                error={!!emailError}
+                                helperText={emailError}
                             />
                         </Grid>
                         <Grid item xs={12}>
                             <TextField
-                                onChange={(e) => {
-                                    setPassword(e.target.value);
-                                }}
+                                onChange={(e) => setPassword(e.target.value)}
                                 required
                                 fullWidth
                                 name="password"
                                 label="Password"
-                                type={showPassword ? 'text' : 'password'} 
+                                type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 autoComplete="new-password"
                             />
@@ -127,19 +150,10 @@ export default function SignUp() {
                             />
                         </Grid>
                     </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                    >
-                        Sign Up
-                    </Button>
+                    <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>Sign Up</Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link href="/adminAuth" variant="body2">
-                                Admin login
-                            </Link>
+                            <Link href="/adminAuth" variant="body2">Admin login</Link>
                         </Grid>
                     </Grid>
                 </Box>

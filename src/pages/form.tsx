@@ -16,7 +16,7 @@ import axios from 'axios';
 import { Router, useRouter } from 'next/router';
 
 
-// TODO remove, this demo shouldn't need to reset the theme.
+
 const defaultTheme = createTheme();
 
 export default function Form() {
@@ -28,14 +28,7 @@ export default function Form() {
 
 
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -55,7 +48,7 @@ export default function Form() {
           <Typography component="h1" variant="h5">
             Add User
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" noValidate  sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -80,7 +73,7 @@ export default function Form() {
                   fullWidth
                   id="Username"
                   label="Last Name"
-                  name="lastName"
+                  name="Username"
                   autoComplete="family-name"
                 />
               </Grid>
