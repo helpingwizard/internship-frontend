@@ -66,7 +66,7 @@ export default function SignInSide() {
               
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Admin Login
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -91,7 +91,7 @@ export default function SignInSide() {
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type="text"
                 id="password"
                 autoComplete="current-password"
               />
@@ -103,7 +103,7 @@ export default function SignInSide() {
                     password: password
                   })
                   localStorage.setItem("token", res.data.token );
-                  router.push('/form');
+                  router.push('/list');
                 }}
                 type="submit"
                 fullWidth

@@ -57,6 +57,9 @@ export default function List() {
                 </Button>
             </div>
             {error && <div style={{ color: "red" }}>{error}</div>}
+            <div>
+                Click on the Name to Update
+            </div>
             <table style={{ borderCollapse: "collapse", width: "100%" }}>
                 <thead>
                     <tr>

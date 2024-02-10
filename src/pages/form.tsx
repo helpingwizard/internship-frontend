@@ -106,7 +106,7 @@ export default function Form() {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
+                  type="text"
                   id="password"
                   autoComplete="new-password"
                 />
