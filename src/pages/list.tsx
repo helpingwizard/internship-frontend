@@ -25,7 +25,7 @@ export default function List() {
         try {
             await axios.delete(`http://localhost:3000/user/delete/${userId}`);
             setUsers(users.filter(user => user.userId !== userId));
-        } catch (error) {
+        } catch (error: any) {
             setError("Error deleting user: " + error.message);
         }
     };
