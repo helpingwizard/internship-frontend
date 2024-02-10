@@ -34,7 +34,7 @@ export default function SignUp() {
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const res = await axios.post("http://localhost:3000/user/signup", {
+        const res = await axios.post("https://backend3-mdfb.onrender.com/user/signup", {
             username: userName,
             email: email,
             password: password,

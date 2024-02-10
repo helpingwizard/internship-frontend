@@ -15,7 +15,7 @@ export default function List() {
     const router = useRouter();
 
     useEffect(() => {
-        fetch('http://localhost:3000/user/data', {
+        fetch('https://backend3-mdfb.onrender.com/user/data', {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
             }
@@ -33,7 +33,7 @@ export default function List() {
 
     const deleteUser = async (userId: number) => {
         try {
-            await axios.delete(`http://localhost:3000/user/delete/${userId}`, {
+            await axios.delete(`https://backend3-mdfb.onrender.com/user/delete/${userId}`, {
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("token")
                 }

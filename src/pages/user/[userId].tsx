@@ -127,7 +127,7 @@ export default function SignUp() {
   onClick={async () => {
     try {
       const res = await axios.put(
-        "http://localhost:3000/user/update/" + userId,
+        "https://backend3-mdfb.onrender.com/user/update/" + userId,
         {
           username: userName,
           email: email,
