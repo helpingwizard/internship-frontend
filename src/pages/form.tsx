@@ -19,7 +19,7 @@ import { Router, useRouter } from 'next/router';
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignUp() {
+export default function Form() {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -78,7 +78,7 @@ export default function SignUp() {
                   }}
                   required
                   fullWidth
-                  id="lastName"
+                  id="Username"
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
@@ -122,6 +122,12 @@ export default function SignUp() {
                   email : email,
                   password: password,
                   name : name
+                }, {
+                  headers: {
+                    "Authorization": "Bearer "+ localStorage.getItem("token")
+
+                }
+
                 })
                 alert("User Created Successfully");
                 router.push('/list');

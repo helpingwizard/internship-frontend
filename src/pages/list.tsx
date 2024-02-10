@@ -15,26 +15,45 @@ export default function List() {
     const router = useRouter();
 
     useEffect(() => {
-        fetch('http://localhost:3000/user/data')
-            .then(response => response.json())
-            .then(data => setUsers(data))
-            .catch(error => console.error('Error fetching data:', error));
+        fetch('http://localhost:3000/user/data', {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => setUsers(data))
+        .catch(error => console.error('Error fetching data:', error));
     }, []);
+    
 
     const deleteUser = async (userId: number) => {
         try {
-            await axios.delete(`http://localhost:3000/user/delete/${userId}`);
+            await axios.delete(`http://localhost:3000/user/delete/${userId}`, {
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                }
+            });
             setUsers(users.filter(user => user.userId !== userId));
         } catch (error: any) {
             setError("Error deleting user: " + error.message);
         }
     };
+    
 
     return (
         <div>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "10px" }}>
                 <Button style={{ width: 150 }} variant="contained" onClick={() => router.push("/form")}>
                     Create User
+                </Button>
+
+                <Button style={{ width: 150 }} variant="contained" onClick={() => {localStorage.setItem("token", " ");  router.push("/")}}>
+                    Logout
                 </Button>
             </div>
             {error && <div style={{ color: "red" }}>{error}</div>}

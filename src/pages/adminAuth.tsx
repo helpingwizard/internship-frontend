@@ -102,6 +102,7 @@ export default function SignInSide() {
                     name : name,
                     password: password
                   })
+                  localStorage.setItem("token", res.data.token );
                   router.push('/form');
                 }}
                 type="submit"
